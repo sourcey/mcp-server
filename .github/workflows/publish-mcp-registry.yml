@@ -1,0 +1,53 @@
+name: Publish MCP Registry
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Existing release tag version without the v prefix
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ inputs.version && format('refs/tags/v{0}', inputs.version) || github.ref }}
+      - name: Verify npm ownership is publicly readable
+        env:
+          RELEASE_VERSION: ${{ inputs.version || github.ref_name }}
+        run: |
+          version="${RELEASE_VERSION#v}"
+          for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+            if test "$(npm view "@sourcey/mcp-server@$version" version 2>/dev/null || true)" = "$version"; then
+              exit 0
+            fi
+            sleep $((attempt * 5))
+          done
+          echo "@sourcey/mcp-server@$version did not become readable" >&2
+          exit 1
+      - name: Install exact official publisher
+        run: |
+          curl --fail --location --silent --show-error \
+            --output mcp-publisher.tar.gz \
+            https://github.com/modelcontextprotocol/registry/releases/download/v1.7.9/mcp-publisher_linux_amd64.tar.gz
+          echo "ab128162b0616090b47cf245afe0a23f3ef08936fdce19074f5ba0a4469281ac  mcp-publisher.tar.gz" | sha256sum --check
+          tar -xzf mcp-publisher.tar.gz mcp-publisher
+          ./mcp-publisher validate server.json
+      - name: Publish exact registry record if absent
+        run: |
+          if node scripts/verify-registry.mjs inspect; then
+            echo "Exact MCP Registry record already exists"
+          else
+            ./mcp-publisher login github-oidc
+            ./mcp-publisher publish server.json
+          fi
+          node scripts/verify-registry.mjs wait

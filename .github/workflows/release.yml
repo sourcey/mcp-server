@@ -4,6 +4,11 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      version:
+        description: Existing release tag version without the v prefix
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -16,6 +21,8 @@ jobs:
     environment: npm
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ inputs.version && format('refs/tags/v{0}', inputs.version) || github.ref }}
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version: "24"
@@ -25,9 +32,11 @@ jobs:
         run: |
           node -e '
             const manifest = require("./package.json");
-            const tag = process.env.GITHUB_REF_NAME;
+            const tag = process.env.RELEASE_TAG;
             if (tag !== `v${manifest.version}`) throw new Error(`${tag} does not match ${manifest.version}`);
           '
+        env:
+          RELEASE_TAG: ${{ inputs.version && format('v{0}', inputs.version) || github.ref_name }}
       - run: npm ci --ignore-scripts
       - run: npm run verify
       - name: Pack once
@@ -44,19 +53,22 @@ jobs:
       - name: Publish exact npm bytes if absent
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          RELEASE_VERSION: ${{ inputs.version || github.ref_name }}
         run: |
           package="@sourcey/mcp-server"
-          version="${GITHUB_REF_NAME#v}"
+          version="${RELEASE_VERSION#v}"
           if npm view "$package@$version" version >/dev/null 2>&1; then
             echo "$package@$version already exists"
           else
             npm publish release/sourcey-mcp-server.tgz --access public --provenance
           fi
       - name: Verify npm registry bytes
+        env:
+          RELEASE_VERSION: ${{ inputs.version || github.ref_name }}
         run: |
           mkdir -p registry
           for attempt in 1 2 3 4 5 6; do
-            if npm pack "@sourcey/mcp-server@${GITHUB_REF_NAME#v}" --pack-destination registry >/dev/null 2>&1; then break; fi
+            if npm pack "@sourcey/mcp-server@${RELEASE_VERSION#v}" --pack-destination registry >/dev/null 2>&1; then break; fi
             sleep $((attempt * 5))
           done
           registry_tar="$(find registry -maxdepth 1 -type f -name '*.tgz' -print -quit)"
@@ -73,17 +85,18 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/sourcey/mcp-server:${{ github.ref_name }}
+            ${{ inputs.version && format('ghcr.io/sourcey/mcp-server:v{0}', inputs.version) || format('ghcr.io/sourcey/mcp-server:{0}', github.ref_name) }}
             ghcr.io/sourcey/mcp-server:latest
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.version=${{ github.ref_name }}
+            org.opencontainers.image.version=${{ inputs.version || github.ref_name }}
       - name: Publish exact GitHub release bytes
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.version && format('v{0}', inputs.version) || github.ref_name }}
         run: |
-          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            gh release upload "$GITHUB_REF_NAME" release/sourcey-mcp-server.tgz release/sourcey-mcp-server.tgz.sha256 --clobber
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" release/sourcey-mcp-server.tgz release/sourcey-mcp-server.tgz.sha256 --clobber
           else
-            gh release create "$GITHUB_REF_NAME" release/sourcey-mcp-server.tgz release/sourcey-mcp-server.tgz.sha256 --generate-notes --verify-tag
+            gh release create "$RELEASE_TAG" release/sourcey-mcp-server.tgz release/sourcey-mcp-server.tgz.sha256 --generate-notes --verify-tag
           fi
