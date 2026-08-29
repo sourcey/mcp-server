@@ -76,7 +76,52 @@ jobs:
           done
           registry_tar="$(find registry -maxdepth 1 -type f -name '*.tgz' -print -quit)"
           test -n "$registry_tar"
-          test "$(sha256sum release/sourcey-mcp-server.tgz | cut -d' ' -f1)" = "$(sha256sum "$registry_tar" | cut -d' ' -f1)"
+          node scripts/verify-packed-package.mjs --tar "$registry_tar"
+          if [[ "$(sha256sum release/sourcey-mcp-server.tgz | cut -d' ' -f1)" != "$(sha256sum "$registry_tar" | cut -d' ' -f1)" ]]; then
+            mkdir -p release/local-package release/registry-package
+            tar -xzf release/sourcey-mcp-server.tgz -C release/local-package
+            tar -xzf "$registry_tar" -C release/registry-package
+            node --input-type=module \
+              - release/local-package/package release/registry-package/package <<'NODE'
+          import assert from "node:assert/strict";
+          import { readdir, readFile } from "node:fs/promises";
+          import { join, relative } from "node:path";
+
+          const [localRoot, registryRoot] = process.argv.slice(2);
+          const paths = async (root, directory = root) => {
+            const found = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const absolute = join(directory, entry.name);
+              if (entry.isDirectory()) found.push(...await paths(root, absolute));
+              else if (entry.isFile()) found.push(relative(root, absolute));
+            }
+            return found.sort();
+          };
+          const localPaths = await paths(localRoot);
+          const registryPaths = await paths(registryRoot);
+          assert.deepEqual(registryPaths, localPaths, "npm package path closure differs from release source");
+          for (const path of localPaths.filter((path) => path !== "SBOM.cdx.json")) {
+            assert.deepEqual(
+              await readFile(join(registryRoot, path)),
+              await readFile(join(localRoot, path)),
+              `npm package file differs from release source: ${path}`,
+            );
+          }
+          const normalizedSbom = async (root) => {
+            const sbom = JSON.parse(await readFile(join(root, "SBOM.cdx.json"), "utf8"));
+            delete sbom.serialNumber;
+            delete sbom.metadata?.timestamp;
+            return sbom;
+          };
+          assert.deepEqual(
+            await normalizedSbom(registryRoot),
+            await normalizedSbom(localRoot),
+            "npm package SBOM closure differs from release source",
+          );
+          NODE
+          fi
+          install -m 0644 "$registry_tar" release/sourcey-mcp-server.tgz
+          sha256sum release/sourcey-mcp-server.tgz > release/sourcey-mcp-server.tgz.sha256
       - uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef
         with:
           registry: ghcr.io
