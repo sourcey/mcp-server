@@ -60,7 +60,7 @@ jobs:
           if npm view "$package@$version" version >/dev/null 2>&1; then
             echo "$package@$version already exists"
           else
-            npm publish release/sourcey-mcp-server.tgz --access public --provenance
+            npm publish ./release/sourcey-mcp-server.tgz --access public --provenance
           fi
       - name: Verify npm registry bytes
         env:
