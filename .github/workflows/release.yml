@@ -23,6 +23,9 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           ref: ${{ inputs.version && format('refs/tags/v{0}', inputs.version) || github.ref }}
+      - name: Bind the exact release source
+        id: source
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version: "24"
@@ -88,7 +91,7 @@ jobs:
             ${{ inputs.version && format('ghcr.io/sourcey/mcp-server:v{0}', inputs.version) || format('ghcr.io/sourcey/mcp-server:{0}', github.ref_name) }}
             ghcr.io/sourcey/mcp-server:latest
           labels: |
-            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.revision=${{ steps.source.outputs.sha }}
             org.opencontainers.image.version=${{ inputs.version || github.ref_name }}
       - name: Publish exact GitHub release bytes
         env:
