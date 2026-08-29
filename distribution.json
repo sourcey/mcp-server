@@ -1,0 +1,24 @@
+{
+  "distribution_contract": "sourcey.mcp-bridge-distribution/v1alpha1",
+  "registry_name": "io.github.sourcey/mcp-server",
+  "implementation_name": "sourcey-mcp-bridge",
+  "title": "Sourcey",
+  "registry_description": "Stdio bridge to Sourcey startup offers and Agent Readiness report cards.",
+  "description": "A thin local stdio bridge to Sourcey's live hosted MCP server for evidence-backed startup credits, deals, Agent Readiness report cards, canonical declarations, and paid-service discovery.",
+  "default_endpoint": "https://mcp.sourcey.com/mcp",
+  "website_url": "https://sourcey.com",
+  "support_url": "https://sourcey.com/support",
+  "privacy_url": "https://sourcey.com/privacy",
+  "terms_url": "https://sourcey.com/terms",
+  "x402_discovery_url": "https://api.sourcey.com/.well-known/x402",
+  "icon": {
+    "src": "https://sourcey.com/brand/sourcey-mark.png",
+    "mime_type": "image/png",
+    "sizes": ["250x250"],
+    "local_path": "assets/sourcey-mark.png",
+    "sha256": "7e6a3cc157c0cf8b984668ab9d3d2697207815240e07958343b17fdbf192233d"
+  },
+  "repository": "https://github.com/sourcey/mcp-server",
+  "container": "ghcr.io/sourcey/mcp-server",
+  "glama_maintainers": ["auscaster"]
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.sourcey/mcp-server",
+  "title": "Sourcey",
+  "description": "Stdio bridge to Sourcey startup offers and Agent Readiness report cards.",
+  "version": "1.0.0",
+  "websiteUrl": "https://sourcey.com",
+  "icons": [
+    {
+      "src": "https://sourcey.com/brand/sourcey-mark.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "250x250"
+      ]
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/sourcey/mcp-server",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@sourcey/mcp-server",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

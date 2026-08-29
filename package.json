@@ -1,0 +1,72 @@
+{
+  "name": "@sourcey/mcp-server",
+  "version": "1.0.0",
+  "description": "Installable stdio bridge to Sourcey's live startup offers and Agent Readiness MCP server.",
+  "mcpName": "io.github.sourcey/mcp-server",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "sourcey-mcp": "dist/index.js"
+  },
+  "files": [
+    "assets",
+    "dist",
+    "CHANGELOG.md",
+    "distribution.json",
+    "LICENSE",
+    "README.md",
+    "SBOM.cdx.json",
+    "SECURITY.md",
+    "server.json",
+    "SUPPORT.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sourcey/mcp-server.git"
+  },
+  "homepage": "https://sourcey.com",
+  "bugs": {
+    "url": "https://github.com/sourcey/mcp-server/issues"
+  },
+  "funding": "https://sourcey.com",
+  "author": "Sourcey",
+  "keywords": [
+    "sourcey",
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "startup-credits",
+    "startup-deals",
+    "agent-readiness",
+    "agent-report-card",
+    "x402",
+    "ai-agents"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "node scripts/clean.mjs && tsc -p tsconfig.json",
+    "generate:metadata": "node scripts/generate-metadata.mjs",
+    "generate:sbom": "node scripts/generate-sbom.mjs",
+    "check:metadata": "node scripts/check-metadata.mjs",
+    "lint": "biome check .",
+    "test": "node --test test/*.test.mjs",
+    "verify:package": "node scripts/verify-packed-package.mjs",
+    "verify": "npm run build && npm run generate:metadata && npm run generate:sbom && npm run check:metadata && npm run lint && npm test && npm run verify:package",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "2.0.0",
+    "@modelcontextprotocol/server": "2.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.5",
+    "@types/node": "24.10.1",
+    "typescript": "6.0.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
