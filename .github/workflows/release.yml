@@ -29,7 +29,6 @@ jobs:
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version: "24"
-          registry-url: https://registry.npmjs.org
           cache: npm
       - name: Verify release identity
         run: |
@@ -55,7 +54,6 @@ jobs:
       - run: node scripts/verify-packed-package.mjs --tar release/sourcey-mcp-server.tgz
       - name: Publish exact npm bytes if absent
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           RELEASE_VERSION: ${{ inputs.version || github.ref_name }}
         run: |
           package="@sourcey/mcp-server"
