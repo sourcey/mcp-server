@@ -1,4 +1,6 @@
-# Sourcey MCP Server
+# Sourcey
+
+<img src="assets/sourcey-mark.png" alt="Sourcey mark" width="96" />
 
 Find evidence-backed startup credits and deals, inspect Agent Readiness report cards, and
 prepare canonical service declarations from an agent client.
@@ -8,6 +10,14 @@ Sourcey is already a hosted Streamable HTTP MCP server:
 ```text
 https://mcp.sourcey.com/mcp
 ```
+
+Gemini CLI can install the hosted connection and bundled `sourcey-research` skill directly from this repository:
+
+```bash
+gemini extensions install https://github.com/sourcey/mcp-server
+```
+
+The Gemini extension uses the remote Sourcey data MCP; it does not start the npm stdio bridge or invoke Sourcey's separate documentation generator.
 
 Use that URL directly when your client supports remote MCP. This package is the thin stdio
 bridge for clients that require a local command:
