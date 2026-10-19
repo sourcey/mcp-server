@@ -1,0 +1,20 @@
+{
+  "name": "sourcey",
+  "version": "0.1.0",
+  "description": "Explore sourced startup offers and Agent Readiness reports with evidence, freshness and eligibility details.",
+  "author": {
+    "name": "Sourcey",
+    "email": "hello@sourcey.com",
+    "url": "https://sourcey.com"
+  },
+  "repository": "https://github.com/sourcey/mcp-server",
+  "homepage": "https://sourcey.com",
+  "license": "MIT",
+  "keywords": [
+    "sourcey",
+    "startup credits",
+    "offers",
+    "agent readiness",
+    "evidence"
+  ]
+}
