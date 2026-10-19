@@ -27,9 +27,15 @@ npx -y @sourcey/mcp-server
 }
 ```
 
-The bridge downloads no Catalog and contains no tool implementations. At startup it negotiates
+The bridge downloads no offer dataset and contains no tool implementations. At startup it negotiates
 with the live Sourcey server, reads the current tool definitions once, and relays tool calls. A
-Catalog or tool-description update therefore needs no package release.
+data or tool-description update therefore needs no package release.
+
+## Agent plugins
+
+This repository also packages the **hosted Sourcey connection** for Claude, Cursor and Grok Build. The plugin manifests are in `.claude-plugin/`, `.cursor-plugin/` and `.grok-plugin/`; `mcp.json` and `.mcp.json` both point directly to `https://mcp.sourcey.com/mcp`. The bundled [Sourcey research skill](skills/sourcey-research/SKILL.md) shows how to check evidence and eligibility before recommending an offer. Marketplace review and live cards are separate from the source package.
+
+The plugin connects to Sourcey's startup-offer and Agent Readiness data. It does **not** run Sourcey's separate documentation generator or pay for Sourcey's HTTP services. The current square mark is in `assets/sourcey-mark.png`; [privacy](https://sourcey.com/privacy), [terms](https://sourcey.com/terms) and [support](https://sourcey.com/support) are available on the product site.
 
 ## What agents can do
 
