@@ -1,6 +1,6 @@
 {
   "name": "sourcey",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Explore sourced startup offers and Agent Readiness reports with evidence, freshness and eligibility details.",
   "author": {
     "name": "Sourcey",
@@ -11,6 +11,9 @@
   "homepage": "https://sourcey.com",
   "icon": ".claude-plugin/icon.png",
   "privacyPolicyUrl": "https://sourcey.com/privacy",
+  "documentationUrl": "https://sourcey.com/mcp",
+  "supportUrl": "https://sourcey.com/support",
+  "termsOfServiceUrl": "https://sourcey.com/terms",
   "license": "MIT",
   "keywords": ["sourcey", "startup credits", "offers", "agent readiness", "evidence"]
 }
