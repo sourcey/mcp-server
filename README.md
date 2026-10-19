@@ -47,6 +47,14 @@ This repository also packages the **hosted Sourcey connection** for Claude, Curs
 
 The plugin connects to Sourcey's startup-offer and Agent Readiness data. It does **not** run Sourcey's separate documentation generator or pay for Sourcey's HTTP services. The current square mark is in `assets/sourcey-mark.png`; [privacy](https://sourcey.com/privacy), [terms](https://sourcey.com/terms) and [support](https://sourcey.com/support) are available on the product site.
 
+Try these prompts after installing the plugin:
+
+- “Find current cloud-hosting startup offers in Sourcey. Show the original source, last-checked date, and any eligibility unknowns for three results.”
+- “Compare two of those offers using their recorded terms and evidence. Separate confirmed conditions from anything Sourcey has not verified.”
+- “Find a Sourcey Agent Readiness report card and explain the tested workflows, blockers, and claims that remain unverified.”
+
+The Claude plugin's `.mcp.json` declares only the public HTTPS Sourcey MCP server. It does not run this repository's optional npm stdio bridge or read a local credential. Search terms and record references deliberately sent to the hosted MCP are handled under [Sourcey's privacy policy](https://sourcey.com/privacy); request bodies are not persisted as product records.
+
 ## What agents can do
 
 - search and compare current startup credits, discounts, free tiers, programs, perks, and deals;
