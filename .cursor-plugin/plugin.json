@@ -2,7 +2,7 @@
   "name": "sourcey",
   "displayName": "Sourcey",
   "description": "Explore sourced startup offers and Agent Readiness reports with evidence, freshness and eligibility details.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Sourcey",
     "email": "hello@sourcey.com"
@@ -12,5 +12,5 @@
   "license": "MIT",
   "keywords": ["sourcey", "startup credits", "offers", "agent readiness", "evidence"],
   "logo": "./assets/sourcey-mark.png",
-  "mcpServers": "mcp.json"
+  "mcpServers": ".mcp.json"
 }
