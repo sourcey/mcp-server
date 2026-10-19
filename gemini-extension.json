@@ -1,0 +1,11 @@
+{
+  "name": "sourcey",
+  "version": "0.1.0",
+  "description": "Explore sourced startup offers and Agent Readiness records with evidence and eligibility details.",
+  "mcpServers": {
+    "sourcey": {
+      "httpUrl": "https://mcp.sourcey.com/mcp",
+      "description": "Sourcey startup offer and Agent Readiness data"
+    }
+  }
+}
