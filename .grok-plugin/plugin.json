@@ -10,12 +10,6 @@
   "repository": "https://github.com/sourcey/mcp-server",
   "homepage": "https://sourcey.com",
   "license": "MIT",
-  "keywords": [
-    "sourcey",
-    "startup credits",
-    "offers",
-    "agent readiness",
-    "evidence"
-  ],
+  "keywords": ["sourcey", "startup credits", "offers", "agent readiness", "evidence"],
   "mcpServers": "./.mcp.json"
 }
