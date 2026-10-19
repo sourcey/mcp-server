@@ -33,7 +33,7 @@ data or tool-description update therefore needs no package release.
 
 ## Agent plugins
 
-This repository also packages the **hosted Sourcey connection** for Claude, Cursor and Grok Build. The plugin manifests are in `.claude-plugin/`, `.cursor-plugin/` and `.grok-plugin/`; `mcp.json` and `.mcp.json` both point directly to `https://mcp.sourcey.com/mcp`. The bundled [Sourcey research skill](skills/sourcey-research/SKILL.md) shows how to check evidence and eligibility before recommending an offer. Marketplace review and live cards are separate from the source package.
+This repository also packages the **hosted Sourcey connection** for Claude, Cursor, Grok Build and portable ChatGPT/Codex distribution. Host manifests are in `.claude-plugin/`, `.cursor-plugin/` and `.grok-plugin/`; root `plugin.json` carries Agent Plugins metadata for ChatGPT/Codex. Portable `mcp.json` and host-specific `.mcp.json` point directly to `https://mcp.sourcey.com/mcp`. The bundled [Sourcey research skill](skills/sourcey-research/SKILL.md) shows how to check evidence and eligibility before recommending an offer. Marketplace review and live cards are separate from the source package; no ChatGPT/Codex approval is claimed here.
 
 The plugin connects to Sourcey's startup-offer and Agent Readiness data. It does **not** run Sourcey's separate documentation generator or pay for Sourcey's HTTP services. The current square mark is in `assets/sourcey-mark.png`; [privacy](https://sourcey.com/privacy), [terms](https://sourcey.com/terms) and [support](https://sourcey.com/support) are available on the product site.
 
