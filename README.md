@@ -14,10 +14,10 @@ https://mcp.sourcey.com/mcp
 Gemini CLI can install the hosted connection and bundled `sourcey-research` skill directly from this repository:
 
 ```bash
-gemini extensions install https://github.com/sourcey/mcp-server
+gemini extensions install https://github.com/sourcey/mcp-server --ref main
 ```
 
-The Gemini extension uses the remote Sourcey data MCP; it does not start the npm stdio bridge or invoke Sourcey's separate documentation generator.
+`--ref main` installs the current extension from the repository. Without it, Gemini CLI selects the older v1.0.0 release archive, which predates the extension manifest. The extension uses the remote Sourcey data MCP; it does not start the npm stdio bridge or invoke Sourcey's separate documentation generator.
 
 Use that URL directly when your client supports remote MCP. This package is the thin stdio
 bridge for clients that require a local command:
