@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { checkClaudePlugin } from "./claude-plugin.mjs";
 import { jsonBytes, metadataDocuments } from "./metadata.mjs";
 
 const root = new URL("../", import.meta.url);
@@ -9,3 +10,4 @@ for (const [name, value] of Object.entries(metadataDocuments(packageManifest, di
   if (actual !== jsonBytes(value))
     throw new Error(`${name} has drifted; run npm run generate:metadata.`);
 }
+await checkClaudePlugin(root);
