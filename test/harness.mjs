@@ -1,5 +1,10 @@
 import { once } from "node:events";
+import { readFile } from "node:fs/promises";
 import { createServer } from "node:http";
+
+const packageManifest = JSON.parse(
+  await readFile(new URL("../package.json", import.meta.url), "utf8"),
+);
 
 export async function startFakeSourcey() {
   const requests = [];
@@ -88,7 +93,7 @@ export async function startFakeSourcey() {
   };
 }
 
-export async function exerciseBridge(child, expectedVersion = "1.0.0") {
+export async function exerciseBridge(child, expectedVersion = packageManifest.version) {
   const stdout = lines(child.stdout);
   const stderr = [];
   child.stderr.on("data", (chunk) => stderr.push(chunk.toString("utf8")));

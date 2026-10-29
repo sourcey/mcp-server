@@ -66,7 +66,6 @@ function assertPackageContents(tarball) {
     "package/dist/index.js",
     "package/dist/bridge.js",
     "package/distribution.json",
-    "package/server.json",
     "package/SBOM.cdx.json",
     "package/assets/sourcey-mark.png",
   ]) {
