@@ -1,8 +1,8 @@
 {
   "name": "@sourcey/mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Installable stdio bridge to Sourcey's live startup offers and Agent Readiness MCP server.",
-  "mcpName": "io.github.sourcey/mcp-server",
+  "mcpName": "com.sourcey/sourcey",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -17,7 +17,6 @@
     "README.md",
     "SBOM.cdx.json",
     "SECURITY.md",
-    "server.json",
     "SUPPORT.md"
   ],
   "repository": {
