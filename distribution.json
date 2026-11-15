@@ -1,6 +1,6 @@
 {
   "distribution_contract": "sourcey.mcp-bridge-distribution/v1alpha1",
-  "registry_name": "io.github.sourcey/mcp-server",
+  "registry_name": "com.sourcey/sourcey",
   "implementation_name": "sourcey-mcp-bridge",
   "title": "Sourcey",
   "registry_description": "Stdio bridge to Sourcey startup offers and Agent Readiness report cards.",
